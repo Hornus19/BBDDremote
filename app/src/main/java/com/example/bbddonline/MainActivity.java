@@ -16,6 +16,7 @@ import android.widget.Toast;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
@@ -40,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
         final Dialog fdDialogue = new Dialog(MainActivity.this, R.style.Theme_AppCompat_DayNight_DarkActionBar);
         fdDialogue.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(100, 0, 0, 0)));
         fdDialogue.setContentView(R.layout.login);
-        fdDialogue.setCancelable(false);
         fdDialogue.show();
         ((Button) fdDialogue.findViewById(R.id.login)).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,5 +85,14 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        try {
+            if(con!=null)
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
